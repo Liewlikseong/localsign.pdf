@@ -539,9 +539,11 @@ watch(signatureColor, (color) => {
           <span>Private, free, and ready when you are.</span>
           <span class="flex items-center gap-1.5"><span class="h-1.5 w-1.5 rounded-full bg-[#7da087]"></span> Processed locally on your device</span>
         </div>
+        <!--
         <div class="mt-5 flex min-h-[72px] items-center justify-center rounded-lg border border-dashed border-[#dce3dc] bg-[#f9faf6] px-4 text-center" aria-label="Advertisement space" data-testid="ad-space">
           <span class="text-[10px] font-medium uppercase tracking-[.18em] text-[#a0aaa2]">Ad Space</span>
         </div>
+        -->
       </section>
 
       <section id="how-it-works" class="border-y border-[#e0e5de] bg-[#eaf0e8]">
