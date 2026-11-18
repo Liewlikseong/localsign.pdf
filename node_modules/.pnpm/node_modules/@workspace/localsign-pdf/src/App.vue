@@ -29,7 +29,7 @@ const signatureColor = ref('#000000')
 const signatureCanvas = ref<HTMLCanvasElement | null>(null)
 let signaturePad: SignaturePad | null = null
 const hasSignatureInk = ref(false)
-const faqs = ref([false, false, false, false])
+const faqs = ref(Array(9).fill(false))
 const dragState = ref<{ id: string; page: number; x: number; y: number; width: number; height: number; startX: number; startY: number; mode: 'move' | 'resize'; pageRect: DOMRect } | null>(null)
 const selectedOverlay = computed(() => overlays.value.find(item => item.id === selectedId.value) ?? null)
 const hasDocument = computed(() => !!doc.value && pages.value.length > 0)
@@ -386,7 +386,7 @@ watch(signatureColor, (color) => {
         <div class="mb-7 flex flex-col justify-between gap-5 sm:mb-8 sm:flex-row sm:items-end">
           <div class="fade-in">
             <p class="mb-3 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[.2em] text-[#668071]"><span class="h-px w-6 bg-[#98ad9e]"></span> The local PDF workspace</p>
-            <h1 class="font-[var(--serif)] text-[42px] leading-[.96] tracking-[-.025em] text-[#283a34] sm:text-[54px]">Sign with <em class="text-[#54816b]">certainty.</em></h1>
+            <h1 class="font-[var(--serif)] text-[42px] leading-[.96] tracking-[-.025em] text-[#283a34] sm:text-[54px]">Sign a PDF <em class="text-[#54816b]">privately.</em></h1>
             <p class="mt-3 max-w-[500px] text-[13px] leading-6 text-[#718078] sm:text-[14px]">Add a signature, date, or note to your PDF. Your documents never leave this browser.</p>
           </div>
           <div class="flex items-center gap-3 fade-in-delay">
@@ -578,10 +578,11 @@ watch(signatureColor, (color) => {
           <h2 class="font-[var(--serif)] text-[36px] leading-none tracking-[-.02em] text-[#304139]">A few clear answers.</h2>
           <div class="mt-7 max-w-[760px] divide-y divide-[#e0e5df] border-y border-[#e0e5df]">
             <div v-for="(faq, index) in [
-              { q: 'How does offline PDF signing work?', a: 'Once this page is open, PDF.js renders your pages and pdf-lib adds text, signatures, and stamps directly in your browser. The document bytes are never uploaded.' },
-              { q: 'Does my PDF get uploaded anywhere?', a: 'No. Your file is opened and processed on this device only. LocalSign does not send your document to a server or require an account.' },
-              { q: 'Will my original PDF be changed?', a: 'No. Download creates a separate signed copy and leaves your original file as it was. Keep the downloaded copy somewhere safe when you are done.' },
-              { q: 'Can I add more than one signature or mark?', a: 'Yes. Add text notes, signatures, and images across the document pages. Select a mark to adjust it or remove it before downloading.' }
+              { q: 'Is a signature made this way legally binding?', a: 'In many countries, including under US ESIGN and EU eIDAS rules, a simple electronic signature is generally accepted for everyday documents. Some documents need stricter forms, so check the requirements for yours. This is not legal advice.' },
+              { q: 'Does it work on iPhone and Android?', a: 'Yes. It runs in any modern mobile browser, and you can draw your signature with your finger.' },
+              { q: 'Can I type text or a date instead of drawing?', a: 'Yes. Use the Text tool to type your name, a date or a note anywhere on the page.' },
+              { q: 'How can I verify my file is not uploaded?', a: 'Open your browser DevTools, go to the Network tab, then sign a document. You will see no upload of your PDF. You can also disconnect from the internet after the page loads and it keeps working.' },
+              { q: 'Is it really free? What is the catch?', a: 'Yes, it is free with no account. The site may show ads to cover costs, but your PDF is never sent to them.' }
             ]" :key="faq.q" class="py-4">
               <button @click="toggleFaq(index)" class="flex w-full items-center justify-between gap-4 text-left" :aria-expanded="faqs[index]" :aria-label="`${faqs[index] ? 'Hide' : 'Show'} answer: ${faq.q}`" :data-testid="`faq-${index + 1}`">
                 <span class="text-[12px] font-semibold text-[#405148]">{{ faq.q }}</span>
