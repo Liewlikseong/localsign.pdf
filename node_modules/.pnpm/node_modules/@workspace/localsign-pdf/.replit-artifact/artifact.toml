@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/localsign-pdf/"
+title = "LocalSign PDF"
+description = "A private, browser-only PDF signing and stamping app. Render PDFs locally, place text, drawn signatures and image stamps, then export without uploading files."
+version = "1.0.0"
+id = "artifacts/localsign-pdf"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/localsign-pdf/" ]
+localPort = 20667
+
+[services.development]
+run = "pnpm --filter @workspace/localsign-pdf run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/localsign-pdf", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/localsign-pdf/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20667"
+BASE_PATH = "/localsign-pdf/"
